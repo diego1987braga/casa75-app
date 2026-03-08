@@ -1,27 +1,23 @@
-import { gerarResposta } from "@/lib/gemini";
+import { gerarResposta } from "../../../lib/gemini";
 
 export async function POST(req: Request) {
+
   try {
-    const body = await req.json();
-    const prompt = body?.message;
 
-    if (!prompt) {
-      return Response.json({ erro: "Mensagem não fornecida" }, { status: 400 });
-    }
+    const { message } = await req.json();
 
-    // Call your Gemini function
-    const responseText = await gerarResposta(prompt);
+    const resposta = await gerarResposta(message);
 
-    return Response.json({
-      resposta: responseText,
-      recebido: prompt
-    });
+    return Response.json({ resposta });
 
   } catch (error) {
-    console.error("Erro na Rota API:", error);
+
+    console.error(error);
+
     return Response.json(
-      { erro: "Erro ao processar sua solicitação" },
+      { erro: "Erro ao gerar resposta" },
       { status: 500 }
     );
   }
+
 }
