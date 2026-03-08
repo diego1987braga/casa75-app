@@ -4,37 +4,37 @@ import { useState } from "react"
 
 export default function Home() {
 
-  const [agent,setAgent] = useState("calebe")
-  const [message,setMessage] = useState("")
-  const [response,setResponse] = useState("")
+  const [agent, setAgent] = useState("Mentor")
+  const [message, setMessage] = useState("")
+  const [chat, setChat] = useState<string[]>([])
 
-  async function sendMessage(){
+  async function sendMessage() {
 
-    const res = await fetch("/api/chat",{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json"
+    if (!message) return
+
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
       },
-      body:JSON.stringify({
-        messages:[
-          { role:"user", content: message }
-        ],
-        agent:agent
+      body: JSON.stringify({
+        messages: [{ role: "user", content: message }],
+        agent: agent
       })
     })
 
     const data = await res.json()
 
-    setResponse(data.resposta)
+    setChat([...chat, "Você: " + message, "IA: " + data.resposta])
+
+    setMessage("")
   }
 
-  return(
+  return (
 
     <main style={{padding:40,fontFamily:"Arial"}}>
 
-      <h1 id="mode-title">
-        Modo: {agent.toUpperCase()}
-      </h1>
+      <h2>Modo: {agent.toUpperCase()}</h2>
 
       <select
         value={agent}
@@ -56,15 +56,18 @@ export default function Home() {
       />
 
       <button
-        onClick={sendMessage}
         style={{marginLeft:10,padding:10}}
+        onClick={sendMessage}
       >
         Enviar
       </button>
 
       <div style={{marginTop:30}}>
-        <b>Resposta da IA:</b>
-        <p>{response}</p>
+
+        {chat.map((msg,index)=>(
+          <p key={index}>{msg}</p>
+        ))}
+
       </div>
 
     </main>
