@@ -1,0 +1,47 @@
+<div class="flex h-screen bg-gray-50 dark:bg-zinc-950 font-sans">
+  <aside class="w-64 border-r border-gray-200 dark:border-zinc-800 p-6 flex flex-col justify-between">
+    <div>
+      <h1 class="text-xl font-bold tracking-tighter text-zinc-900 dark:text-white mb-8">CASA 75 <span class="text-xs font-normal opacity-50">AI</span></h1>
+      <nav class="space-y-4">
+        <button class="w-full flex items-center p-3 text-sm bg-zinc-900 text-white rounded-lg hover:bg-zinc-800 transition">
+          <span>✨ Iniciar Render</span>
+        </button>
+        <button class="w-full flex items-center p-3 text-sm text-zinc-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded-lg">
+          <span>🎨 Mudar Materiais</span>
+        </button>
+        <button class="w-full flex items-center p-3 text-sm text-zinc-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded-lg">
+          <span>🚗 Adicionar Objetos</span>
+        </button>
+      </nav>
+    </div>
+    <div class="p-4 bg-zinc-100 dark:bg-zinc-900 rounded-xl">
+      <p class="text-xs text-zinc-500 mb-2">Créditos: 450/500</p>
+      <div class="w-full bg-gray-300 dark:bg-zinc-700 h-1 rounded-full overflow-hidden">
+        <div class="bg-blue-500 h-full w-[90%]"></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="flex-1 p-8 flex flex-col gap-6">
+    <div class="flex justify-between items-center">
+      <h2 class="text-sm font-medium text-zinc-500">Projeto: Residencial Jardim</h2>
+      <div class="flex gap-2">
+        <button class="px-4 py-2 text-xs border border-gray-200 dark:border-zinc-800 rounded-full hover:bg-white dark:hover:bg-zinc-900 transition">Modo Claro/Escuro</button>
+        <button class="px-4 py-2 text-xs bg-blue-600 text-white rounded-full">Download Render</button>
+      </div>
+    </div>
+    <div class="flex-1 bg-white dark:bg-zinc-900 rounded-3xl border border-gray-200 dark:border-zinc-800 shadow-sm flex items-center justify-center overflow-hidden">
+      <p class="text-zinc-400 text-sm">Arraste sua planta ou foto aqui para começar...</p>
+    </div>
+  </main>
+
+  <aside class="w-80 border-l border-gray-200 dark:border-zinc-800 p-6 flex flex-col bg-white dark:bg-zinc-950">
+    <h3 class="text-xs font-semibold uppercase tracking-widest text-zinc-400 mb-4">Chat Calebe</h3>
+    <div class="flex-1 overflow-y-auto text-sm text-zinc-600 dark:text-zinc-300 space-y-4">
+      <p class="bg-zinc-100 dark:bg-zinc-900 p-3 rounded-2xl rounded-tl-none italic text-xs">"Olá! Sou o Calebe. Como posso ajudar no seu projeto hoje?"</p>
+    </div>
+    <div class="mt-4">
+      <input type="text" placeholder="Descreva sua alteração..." class="w-full p-3 bg-zinc-100 dark:bg-zinc-900 rounded-2xl text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition">
+    </div>
+  </aside>
+</div>
