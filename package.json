@@ -1,0 +1,11 @@
+{
+  "name": "casa75-app",
+  "version": "0.1.0",
+  "dependencies": {
+    "@ai-sdk/google": "latest",
+    "ai": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  }
+}
