@@ -1,4 +1,4 @@
-import { gerarResposta } from "@/lib/gemini"
+import { gerarResposta } from "../../../lib/gemini"
 
 export async function POST(req:Request){
 
