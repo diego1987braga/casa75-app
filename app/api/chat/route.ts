@@ -4,20 +4,24 @@ export async function POST(req: Request) {
 
   try {
 
-    const { message } = await req.json();
+    const body = await req.json()
 
-    const resposta = await gerarResposta(message);
+    const pergunta = body.message || "Olá"
 
-    return Response.json({ resposta });
+    const resposta = await gerarResposta(pergunta)
+
+    return Response.json({
+      resposta: resposta
+    })
 
   } catch (error) {
 
-    console.error(error);
+    console.error(error)
 
-    return Response.json(
-      { erro: "Erro ao gerar resposta" },
-      { status: 500 }
-    );
+    return Response.json({
+      resposta:"Erro ao gerar resposta"
+    })
+
   }
 
 }
