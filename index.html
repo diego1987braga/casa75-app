@@ -1,80 +1,21 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CASA 75 AI | Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); }
-        .chat-container { height: calc(100vh - 200px); }
-    </style>
-</head>
-<body class="bg-[#0A0A0A] text-zinc-300 font-sans overflow-hidden">
-    <div class="flex h-screen">
-        <aside class="w-64 border-r border-zinc-800 p-6 flex flex-col justify-between">
-            <div>
-                <h1 class="text-white font-bold text-xl tracking-tighter mb-10">CASA 75 <span class="text-blue-500">AI</span></h1>
-                <nav class="space-y-2">
-                    <button onclick="setMode('cineasta')" class="w-full text-left p-3 rounded-lg hover:bg-zinc-900 transition text-sm">🎬 Agente Cineasta</button>
-                    <button onclick="setMode('engenheiro')" class="w-full text-left p-3 rounded-lg hover:bg-zinc-900 transition text-sm">🏗️ Agente Engenheiro</button>
-                    <button onclick="setMode('vendedor')" class="w-full text-left p-3 rounded-lg hover:bg-zinc-900 transition text-sm">💰 Agente Vendedor</button>
-                </nav>
-            </div>
-            <div class="bg-zinc-900 p-4 rounded-xl border border-zinc-800">
-                <p class="text-[10px] uppercase tracking-widest text-zinc-500 mb-2">Créditos mensais</p>
-                <div class="h-1 bg-zinc-800 rounded-full overflow-hidden">
-                    <div class="bg-blue-600 h-full w-4/5"></div>
-                </div>
-            </div>
-        </aside>
+let currentAgent = 'calebe';
 
-        <main class="flex-1 flex flex-col p-8">
-            <header class="flex justify-between items-center mb-8">
-                <h2 id="mode-title" class="text-sm font-medium text-zinc-500">Modo: Especialista Casa 75</h2>
-                <button class="bg-white text-black px-4 py-2 rounded-full text-xs font-bold hover:bg-zinc-200">Novo Projeto</button>
-            </header>
+function setMode(mode) {
+    currentAgent = mode;
+    document.getElementById('mode-title').innerText = "Modo: " + mode.toUpperCase();
+    // Limpa o chat ou avisa a troca
+    chat.innerHTML += `<div class="text-blue-500 text-xs text-center">Agente ${mode} ativado.</div>`;
+}
 
-            <div class="flex-1 flex gap-6 overflow-hidden">
-                <div class="flex-[2] bg-zinc-900 rounded-3xl border border-zinc-800 flex items-center justify-center relative group">
-                    <div class="text-center">
-                        <p class="text-zinc-600 text-sm">Arraste fotos ou plantas aqui</p>
-                    </div>
-                </div>
+async function sendMessage() {
+    const text = input.value;
+    // ... código visual do chat ...
 
-                <div class="flex-1 glass border border-zinc-800 rounded-3xl flex flex-col overflow-hidden">
-                    <div id="chat-content" class="flex-1 p-6 overflow-y-auto space-y-4 text-sm">
-                        <div class="bg-zinc-800 p-3 rounded-2xl rounded-tl-none">Olá, Diego! Sou o Calebe. Qual o desafio arquitetônico de hoje?</div>
-                    </div>
-                    <div class="p-4 border-t border-zinc-800">
-                        <input type="text" id="userInput" placeholder="Digite seu comando..." class="w-full bg-zinc-900 border border-zinc-800 p-3 rounded-xl text-sm focus:outline-none focus:border-blue-500">
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <script>
-        const input = document.getElementById('userInput');
-        const chat = document.getElementById('chat-content');
-
-        input.addEventListener('keypress', async (e) => {
-            if (e.key === 'Enter' && input.value) {
-                const text = input.value;
-                input.value = '';
-                chat.innerHTML += `<div class="bg-blue-600 text-white p-3 rounded-2xl rounded-tr-none self-end ml-auto max-w-[80%]">${text}</div>`;
-                
-                // Simulação de resposta (Para conectar a API real, precisamos do passo 2)
-                setTimeout(() => {
-                    chat.innerHTML += `<div class="bg-zinc-800 p-3 rounded-2xl rounded-tl-none">Processando sua solicitação no padrão Casa 75...</div>`;
-                    chat.scrollTop = chat.scrollHeight;
-                }, 1000);
-            }
-        });
-
-        function setMode(mode) {
-            document.getElementById('mode-title').innerText = "Modo: " + mode.toUpperCase();
-        }
-    </script>
-</body>
-</html>
+    // Chamada real para a API que criamos no Passo 2
+    const response = await fetch('/api/chat', {
+        method: 'POST',
+        body: JSON.stringify({ messages: [{ role: 'user', content: text }], agent: currentAgent })
+    });
+    
+    // Aqui a resposta da IA aparecerá no seu Dashboard
+}
