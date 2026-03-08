@@ -1,6 +1,6 @@
 export const metadata = {
   title: "Sistema de Agentes IA",
-  description: "Agentes IA"
+  description: "Plataforma de agentes"
 }
 
 export default function RootLayout({
@@ -8,9 +8,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-
   return (
-    <html lang="pt">
+    <html lang="pt-br">
       <body>
         {children}
       </body>
