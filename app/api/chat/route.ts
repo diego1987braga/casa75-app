@@ -1,19 +1,27 @@
 export async function POST(req: Request) {
+
   try {
 
     const body = await req.json()
 
+    const message = body?.message || "mensagem vazia"
+
     return Response.json({
       resposta: "API funcionando",
-      recebido: body
+      recebido: message
     })
 
   } catch (error) {
 
-    return Response.json({
-      erro: "Erro na API",
-      detalhe: String(error)
-    }, { status: 500 })
+    console.error(error)
+
+    return Response.json(
+      {
+        erro: "Erro interno da API"
+      },
+      { status: 500 }
+    )
 
   }
+
 }
