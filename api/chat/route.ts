@@ -1,20 +1,37 @@
+import { neon } from '@neondatabase/serverless';
+import { NextResponse } from 'next/server';
 
-import { google } from '@ai-sdk/google';
-import { streamText } from 'ai';
-
-export const runtime = 'edge';
+const sql = neon(process.env.DATABASE_URL!);
 
 export async function POST(req: Request) {
-  const { messages, agentId, context } = await req.json();
+  try {
+    const { action, username, password, masterKey } = await req.json();
 
-  // Aqui o sistema une o que o Calebe já sabe com a instrução do agente
-  const result = await streamText({
-    model: google('gemini-1.5-pro'),
-    system: `Você é o Calebe, a inteligência da Casa 75. 
-             Use este histórico do projeto para responder: ${context}. 
-             Siga a personalidade do agente: ${agentId}`,
-    messages,
-  });
+    // Criar tabela se não existir (Executado apenas uma vez)
+    await sql`CREATE TABLE IF NOT EXISTS usuarios (
+      id SERIAL PRIMARY KEY,
+      username TEXT UNIQUE NOT NULL,
+      password TEXT NOT NULL,
+      role TEXT NOT NULL
+    )`;
 
-  return result.toDataStreamResponse();
+    if (action === 'login') {
+      const users = await sql`SELECT * FROM usuarios WHERE username = ${username.toLowerCase()}`;
+      if (users.length > 0 && users[0].password === password) {
+        return NextResponse.json({ success: true, name: username });
+      }
+      return NextResponse.json({ success: false }, { status: 401 });
+    }
+
+    if (action === 'create' && masterKey === process.env.MASTER_ADMIN_KEY) {
+      await sql`INSERT INTO usuarios (username, password, role) 
+                VALUES (${username.toLowerCase()}, ${password}, 'arquiteto')
+                ON CONFLICT (username) DO NOTHING`;
+      return NextResponse.json({ success: true });
+    }
+
+    return NextResponse.json({ error: 'Ação inválida' }, { status: 400 });
+  } catch (error) {
+    return NextResponse.json({ error: 'Erro no servidor' }, { status: 500 });
+  }
 }
