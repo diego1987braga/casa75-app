@@ -12,32 +12,32 @@ async function send(){
 
  if(!message) return
 
- const userMessage={
-   role:"user",
-   content:message
+ const user={
+  role:"user",
+  content:message
  }
 
- setChat([...chat,userMessage])
+ setChat(c=>[...c,user])
 
  const res = await fetch("/api/chat",{
-   method:"POST",
-   headers:{
-     "Content-Type":"application/json"
-   },
-   body:JSON.stringify({
-     message:message,
-     agent:agent
-   })
+  method:"POST",
+  headers:{
+   "Content-Type":"application/json"
+  },
+  body:JSON.stringify({
+   message,
+   agent
+  })
  })
 
  const data = await res.json()
 
- const aiMessage={
-   role:"assistant",
-   content:data.resposta
+ const ai={
+  role:"assistant",
+  content:data.resposta
  }
 
- setChat(c=>[...c,aiMessage])
+ setChat(c=>[...c,ai])
 
  setMessage("")
 }
@@ -50,10 +50,10 @@ height:"100vh",
 fontFamily:"Arial"
 }}>
 
-{/* sidebar */}
+{/* Sidebar */}
 
 <div style={{
-width:260,
+width:250,
 background:"#111",
 color:"#fff",
 padding:20
@@ -71,31 +71,19 @@ style={{width:"100%",padding:8}}
 <option value="croqui">Visionário de Croquis</option>
 <option value="cineasta">Cineasta IA</option>
 <option value="moodboard">Moodboard</option>
-
 <option value="mentor">Mentor Técnico</option>
-<option value="briefing">Analista de Briefing</option>
-
-<option value="materiais">Curador de Materiais</option>
-
-<option value="financeiro">ROI Master</option>
-
-<option value="marketing">Marketing IA</option>
-
-<option value="gestao">Gestão IA</option>
 
 </select>
 
 </div>
 
-{/* chat */}
+{/* Chat */}
 
 <div style={{
 flex:1,
 display:"flex",
 flexDirection:"column"
 }}>
-
-{/* mensagens */}
 
 <div style={{
 flex:1,
@@ -130,8 +118,6 @@ background:m.role==="user"?"#007aff":"#fff"
 
 </div>
 
-{/* input */}
-
 <div style={{
 padding:20,
 borderTop:"1px solid #ddd",
@@ -144,8 +130,7 @@ onChange={(e)=>setMessage(e.target.value)}
 placeholder="Pergunte algo..."
 style={{
 flex:1,
-padding:12,
-fontSize:16
+padding:12
 }}
 />
 
@@ -156,8 +141,7 @@ marginLeft:10,
 padding:"12px 20px",
 background:"#007aff",
 color:"#fff",
-border:"none",
-cursor:"pointer"
+border:"none"
 }}
 >
 Enviar
