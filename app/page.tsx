@@ -2,43 +2,68 @@
 
 import { useState } from "react"
 
-export default function Home() {
+export default function Home(){
 
-  const [msg,setMsg] = useState("")
-  const [resp,setResp] = useState("")
+const [msg,setMsg] = useState("")
+const [resp,setResp] = useState("")
+const [agent,setAgent] = useState("render")
 
-  async function enviar(){
+async function enviar(){
 
-    const r = await fetch("/api/chat",{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify({message:msg})
-    })
+const r = await fetch("/api/chat",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+message:msg,
+agent:agent
+})
+})
 
-    const data = await r.json()
+const data = await r.json()
 
-    setResp(data.resposta)
-  }
+setResp(data.resposta)
 
-  return (
+}
 
-    <main style={{padding:40}}>
+return(
 
-      <h1>Agente IA</h1>
+<main style={{padding:40,fontFamily:"Arial"}}>
 
-      <input
-        value={msg}
-        onChange={(e)=>setMsg(e.target.value)}
-      />
+<h1>Sistema de Agentes IA</h1>
 
-      <button onClick={enviar}>
-        Enviar
-      </button>
+<select onChange={(e)=>setAgent(e.target.value)}>
 
-      <p>{resp}</p>
+<option value="render">Render IA</option>
+<option value="croqui">Croqui → 3D</option>
+<option value="moodboard">Moodboard</option>
 
-    </main>
-  )
+</select>
+
+<br/><br/>
+
+<input
+style={{width:400,padding:10}}
+value={msg}
+onChange={(e)=>setMsg(e.target.value)}
+placeholder="Digite seu prompt"
+/>
+
+<button onClick={enviar} style={{marginLeft:10}}>
+Enviar
+</button>
+
+<div style={{marginTop:30}}>
+
+<h3>Resposta IA</h3>
+
+<p>{resp}</p>
+
+</div>
+
+</main>
+
+)
+
 }
