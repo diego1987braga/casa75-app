@@ -4,40 +4,45 @@ import { useState } from "react"
 
 export default function Home() {
 
-  const [msg, setMsg] = useState("")
-  const [resp, setResp] = useState("")
-  const [agent, setAgent] = useState("calebe")
+  const [agent,setAgent] = useState("calebe")
+  const [message,setMessage] = useState("")
+  const [response,setResponse] = useState("")
 
-  async function sendMessage() {
+  async function sendMessage(){
 
-    const r = await fetch("/api/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
+    const res = await fetch("/api/chat",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
       },
-      body: JSON.stringify({
-        message: msg,
-        agent: agent
+      body:JSON.stringify({
+        messages:[
+          { role:"user", content: message }
+        ],
+        agent:agent
       })
     })
 
-    const data = await r.json()
+    const data = await res.json()
 
-    setResp(data.resposta)
+    setResponse(data.resposta)
   }
 
-  return (
+  return(
+
     <main style={{padding:40,fontFamily:"Arial"}}>
 
-      <h1>Sistema de Agentes IA</h1>
+      <h1 id="mode-title">
+        Modo: {agent.toUpperCase()}
+      </h1>
 
       <select
         value={agent}
         onChange={(e)=>setAgent(e.target.value)}
       >
         <option value="calebe">Calebe</option>
-        <option value="render">Render IA</option>
-        <option value="croqui">Croqui → 3D</option>
+        <option value="render">Render</option>
+        <option value="croqui">Croqui</option>
         <option value="moodboard">Moodboard</option>
       </select>
 
@@ -45,23 +50,24 @@ export default function Home() {
 
       <input
         style={{width:400,padding:10}}
-        value={msg}
-        onChange={(e)=>setMsg(e.target.value)}
-        placeholder="Digite sua pergunta"
+        value={message}
+        onChange={(e)=>setMessage(e.target.value)}
+        placeholder="Digite sua mensagem"
       />
 
       <button
-        style={{marginLeft:10,padding:10}}
         onClick={sendMessage}
+        style={{marginLeft:10,padding:10}}
       >
         Enviar
       </button>
 
       <div style={{marginTop:30}}>
-        <h3>Resposta</h3>
-        <p>{resp}</p>
+        <b>Resposta da IA:</b>
+        <p>{response}</p>
       </div>
 
     </main>
+
   )
 }
