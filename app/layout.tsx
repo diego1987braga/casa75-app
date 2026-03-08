@@ -1,6 +1,6 @@
 export const metadata = {
   title: "Sistema de Agentes IA",
-  description: "Plataforma de agentes"
+  description: "Plataforma de IA"
 }
 
 export default function RootLayout({
